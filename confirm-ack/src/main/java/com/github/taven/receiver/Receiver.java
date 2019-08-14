@@ -1,4 +1,4 @@
-package com.github.taven;
+package com.github.taven.receiver;
 
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
@@ -19,8 +19,15 @@ public class Receiver {
     public void receive(String messageStr, Channel channel, Message message) {
         log.info("receive message: {}", messageStr);
         try {
-            //通知服务器此消息已经被消费，可从队列删掉， 这样以后就不会重发，否则后续还会在发
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            if ("NACK".equals(messageStr)) {
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+
+            } else {
+                //通知服务器此消息已经被消费，可从队列删掉， 这样以后就不会重发，否则后续还会在发
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

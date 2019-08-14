@@ -1,4 +1,4 @@
-package com.github.taven;
+package com.github.taven.send;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ public class SendService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void send() {
-        rabbitTemplate.convertAndSend("user_exchange", "user_routingKey", "6666666");
+    public void send(String message) {
+        rabbitTemplate.convertAndSend("user_exchange", "user_routingKey", message);
     }
 
 }

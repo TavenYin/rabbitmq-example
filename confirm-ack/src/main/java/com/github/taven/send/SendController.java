@@ -1,4 +1,4 @@
-package com.github.taven;
+package com.github.taven.send;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +10,8 @@ public class SendController {
     private SendService sendService;
 
     @PostMapping("/send")
-    public void send() {
-        sendService.send();
+    public void send(String message) {
+        sendService.send(message);
     }
 
 }
